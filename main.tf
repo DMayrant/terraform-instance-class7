@@ -53,7 +53,7 @@ resource "aws_instance" "web" {
   lifecycle {
     create_before_destroy = true
   }
-  user_data = file("${path.module}/file.txt")
+  user_data = file("${path.module}/file.sh")
 
   tags = merge(local.common_tags, {
     Name = "Class7-Lizzoing-01"
