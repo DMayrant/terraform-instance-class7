@@ -18,23 +18,24 @@ resource "aws_security_group" "ingress_sg" {
   name        = "class-7_SG"
   vpc_id      = data.aws_vpc.default.id
   description = "Allows HTTP traffic to webpage"
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = merge(local.common_tags, {
     Name = "Lizzo-SG-class7"
   })
 
 }
-
-resource "aws_vpc_security_group_ingress_rule" "example" {
-  security_group_id = aws_security_group.ingress_sg.id
-  description       = "Allow http traffic to webapp"
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 80
-  ip_protocol       = "tcp"
-  to_port           = 80
-
-}
-
 
 resource "aws_instance" "web" {
   ami                         = "ami-0b09ffb6d8b58ca91"
